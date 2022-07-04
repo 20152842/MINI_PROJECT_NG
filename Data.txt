@@ -1,0 +1,106 @@
+create database ATM_db default character set = utf8mb4;
+use ATM_db;
+drop table borrower; # 테이블삭제
+
+create table account(
+	account_name varchar(500),
+    account_id varchar(100) not null,
+    account_desc varbinary(500),
+    constraint PK_ACCOUNT primary key(account_id)
+)engine = InnoDB default character set = utf8mb4;
+truncate loan; # 테이블 리셋
+
+INSERT INTO account VALUES('Downrown', 'A-101', 500);
+INSERT INTO account VALUES('Mianus', 'A-215', 700);
+INSERT INTO account VALUES('Perryridge', 'A-102', 400);
+INSERT INTO account VALUES('Round Hill', 'A-305', 350);
+INSERT INTO account VALUES('Brighton', 'A-201', 900);
+INSERT INTO account VALUES('Redwood', 'A-222', 700);
+INSERT INTO account VALUES('Brighton', 'A-217', 750);
+
+select *
+from account;
+
+create table customer(#고객
+	customer_id varchar(20),
+	customer_name varchar(20),
+	customer_street varchar(20),
+	customer_city varchar(20),
+    constraint PK_CUSTOMER primary key(customer_id)
+)engine = InnoDB default character set = utf8mb4;
+
+INSERT INTO customer VALUES('1111','Jones', 'Main', 'harrison');
+INSERT INTO customer VALUES('1112','Smith', 'North', 'Rye');
+INSERT INTO customer VALUES('1113','Hayes', 'Main', 'Harrison');
+INSERT INTO customer VALUES('1114','Curry', 'North', 'Rye');
+INSERT INTO customer VALUES('1115','Lindsay', 'Park', 'Pittsfield');
+INSERT INTO customer VALUES('1116','Turner', 'Putnam', 'Stamford');
+INSERT INTO customer VALUES('1117','Williams', 'Nassau', 'Princeton');
+INSERT INTO customer VALUES('1118','Adams', 'Spring', 'Pittsfield');
+INSERT INTO customer VALUES('1119','Johnson', 'Alma', 'Palo Alto');
+INSERT INTO customer VALUES('1120','Glenn', 'Sand Hill', 'Woodside');
+INSERT INTO customer VALUES('1121','Brooks', 'Senator', 'Brooklyn');
+INSERT INTO customer VALUES('1122','Girccn', 'Walnut', 'Stamford');
+
+CREATE TABLE branch(#지점
+	branch_name varchar(20),
+	branch_city varchar(20),
+	asserts varbinary(10),
+	constraint PK_BRANCH primary key(branch_name)
+)engine = InnoDB default character set = utf8mb4;
+
+INSERT INTO branch VALUES('Downtown', 'Brooklyn', 9000000);
+INSERT INTO branch VALUES('Redwood', 'Palo Alto', 2100000);
+INSERT INTO branch VALUES('Perryridge', 'Horsencck', 1700000);
+INSERT INTO branch VALUES('Mianus', 'Horsencck', 400000);
+INSERT INTO branch VALUES('Round Hill', 'Horsencck', 8000000);
+INSERT INTO branch VALUES('Pownal', 'Bennington', 300000);
+INSERT INTO branch VALUES('North Town', 'Rye', 3700000);
+INSERT INTO branch VALUES('Brighton', 'Brooklyn', 7100000);
+
+
+CREATE TABLE loan(
+	branch_name varchar(20),
+	loan_number varchar(20),
+	loan_cost varbinary(10),
+    constraint PK_LOAN primary key(branch_name)
+    )engine = InnoDB default character set = utf8mb4;
+    
+INSERT INTO loan VALUES('Downtown', 'L-17', 1000);
+INSERT INTO loan VALUES('Redwood', 'L-23', 2000);
+INSERT INTO loan VALUES('Perryridge', 'L-15', 1500);
+INSERT INTO loan VALUES('Downtown', 'L-14', 1500);
+INSERT INTO loan VALUES('Mianus', 'L-93', 500);
+INSERT INTO loan VALUES('Round Hill', 'L-11', 900);
+INSERT INTO loan VALUES('Perryridge', 'L-16', 1300);
+
+select *
+from loan;
+CREATE TABLE depositor(
+	customer_name CHAR(20),
+	account_number CHAR(20),
+	constraint PK_DEPOSITOR primary key(customer_name)
+    )engine = InnoDB default character set = utf8mb4;
+    
+
+INSERT INTO depositor VALUES('Johnson', 'A-101');
+INSERT INTO depositor VALUES('Smith', 'A-215');
+INSERT INTO depositor VALUES('Hayes', 'A-102');
+INSERT INTO depositor VALUES('Turner', 'A-305');
+INSERT INTO depositor VALUES('Jason', 'A-201');
+INSERT INTO depositor VALUES('Jones', 'A-217');
+INSERT INTO depositor VALUES('Lindsay', 'A-222');
+
+CREATE TABLE borrower(
+	customer_name varchar(20),
+	loan_number varchar(20),
+    constraint PK_BORROWER primary key(customer_name)
+	)engine = InnoDB default character set = utf8mb4;
+    
+INSERT INTO borrower VALUES('Johnson', 'A-101');
+INSERT INTO borrower VALUES('Smith', 'A-215');
+INSERT INTO borrower VALUES('Hayes', 'A-102');
+INSERT INTO borrower VALUES('Turner', 'A-305');
+INSERT INTO borrower VALUES('Johnson', 'A-201');
+INSERT INTO borrower VALUES('Jones', 'A-217');
+INSERT INTO borrower VALUES('Lindsay', 'A-222');
