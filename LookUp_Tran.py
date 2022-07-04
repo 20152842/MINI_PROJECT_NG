@@ -1,17 +1,36 @@
-class LookUp_Tran:
+class LookUp_Tran(action):
     def __init__(self):
+        self.cnt = 1
         
     def LookupMain():
         tmp = UI(UserInput())
-        if tmp == 1 :
-            Lookup_Withdraw()
-        elif tmp == 2 :
+        
+        while(cnt)
+            if tmp == 1 :
+                Lookup_Withdraw()
+                #계좌 정보 가져온 후 출금 연동
+                # 출금 클래스 호출 후 연동
             
-        elif tmp == 3 :
+            elif tmp == 2 :
+                Last_Tran()
+                #마지막 거래일자 조회
             
+            elif tmp == 3 :
+                All_Tran()
+                #전체 거래내역 조회
+            cnt = Continue()
+        
+        if int(input("거래를 종료하였습니다. 명세표를 출력하시려면 1을, 아니라면 2를 입력하세요.") == 1:
+            recipt()
+        else :
+            print("안녕히가세요")
+                    
         
         
         
+        
+class action :
+    
     def UserInput():
         user = input("카드나 통장을 삽입하세요.")
         return user
@@ -28,22 +47,25 @@ class LookUp_Tran:
         
     
     
-    def Lookup_Withdraw():
+    def Lookup_Withdraw(PassWord):
+        
             
             
-    def Last_Tran():
+    def Last_Tran(PassWord):
         
         
-    def All_Tran():
+    def All_Tran(PassWord):
         
         
-    def PassWord():
+    def PassWord(): # 부모 메소드
+        password = int(input("비밀번호를 입력하세요")
+        
         
         
     def Continue():
-    
+        return int(input("거래를 계속하시려면 1을, 거래를 종료하시려면 2를 입력하세요.")
     
     def recipt():
-    
+        
     
     
