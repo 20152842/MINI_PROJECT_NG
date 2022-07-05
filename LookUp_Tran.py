@@ -1,3 +1,6 @@
+
+
+
 class LookUp_Tran(action):
     def __init__(self):
         self.cnt = 1
@@ -30,10 +33,7 @@ class LookUp_Tran(action):
         
         
 class action :
-    
-    def UserInput():
-        user = input("카드나 통장을 삽입하세요.")
-        return user
+   
     
     def UI(user):
         print(user + "을(를) 삽입하셨습니다. 거래를 선택하세요")
@@ -56,16 +56,6 @@ class action :
         
     def All_Tran(PassWord):
         
-        
-    def PassWord(): # 부모 메소드
-        password = int(input("비밀번호를 입력하세요")
-        
-        
-        
-    def Continue():
-        return int(input("거래를 계속하시려면 1을, 거래를 종료하시려면 2를 입력하세요.")
-    
-    def recipt():
-        
+   
     
     
