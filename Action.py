@@ -1,4 +1,5 @@
 import random
+import pymysql
 
 class Action :
     
@@ -37,7 +38,18 @@ class Action :
             print("사기 거래 조회 되지 않았습니다. 거래를 계속합니다.")
                             
     def Continue(): # 거래 연속 or 종료
-        return int(input("거래를 계속하시려면 1을, 거래를 종료하시려면 2를 입력하세요.")
+        return int(input("거래를 계속하시려면 1을, 거래를 종료하시려면 0를 입력하세요.")
                    
     def recipt(): # 명세표 출력
                    
+def connection(text):   
+    con = pymysql.connect(host='localhost', user='lastcoder', password='1234',
+                       db='atm_db', charset='utf8',  autocommit=True, cursorclass=pymysql.cursors.DictCursor)
+    cur = con.cursor()
+    cur.execute(text)
+    con.close()
+    return Sort(cur)
+
+def Call_C_Info():
+                   
+    

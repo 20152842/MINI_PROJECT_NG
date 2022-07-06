@@ -1,7 +1,7 @@
 create database ATM_db default character set = utf8mb4;
 use ATM_db;
-drop table customer; # 테이블삭제
-truncate loan; # 테이블 리셋
+drop table accounts; # 테이블삭제
+truncate accounts; # 테이블 리셋
 show tables;
 
 create table accounts(
@@ -9,21 +9,28 @@ create table accounts(
     accounts_id varchar(100) not null,
     accounts_desc varbinary(100),
     customer_id varchar(100) not null,
+    accounts_password varchar(100),
     constraint PK_ACCOUNTS primary key(accounts_id)
 )engine = InnoDB default character set = utf8mb4;
 
 alter table accounts
 	add constraint FK_ACCOUNTS foreign key(customer_id) references customer (customer_id);
-
+    
+alter table accounts drop foreign key FK_ACCOUNTS;
 desc accounts;
+alter table accounts
+	add accounts_password varchar(100);
+desc accounts;
+select *
+from accounts;
 
-INSERT INTO account VALUES('Downrown', 'A-101', 500, 'C-101');
-INSERT INTO account VALUES('Mianus', 'A-102', 700, 'C-103');
-INSERT INTO account VALUES('Perryridge', 'A-103', 400, 'C-104');
-INSERT INTO account VALUES('Round Hill', 'A-104', 350, 'C-106');
-INSERT INTO account VALUES('Brighton', 'A-105', 900, 'C-109');
-INSERT INTO account VALUES('Redwood', 'A-106', 700, 'C-111');
-INSERT INTO account VALUES('Brighton', 'A-107', 750, 'C-112');
+INSERT INTO accounts VALUES('Downrown', 'A-101', 500, 'C-101', 1111);
+INSERT INTO accounts VALUES('Mianus', 'A-102', 700, 'C-103', 1111);
+INSERT INTO accounts VALUES('Perryridge', 'A-103', 400, 'C-104',1111);
+INSERT INTO accounts VALUES('Round Hill', 'A-104', 350, 'C-106', 1111);
+INSERT INTO accounts VALUES('Brighton', 'A-105', 900, 'C-109', 1111);
+INSERT INTO accounts VALUES('Redwood', 'A-106', 700, 'C-111', 1111);
+INSERT INTO accounts VALUES('Brighton', 'A-107', 750, 'C-112', 1111);
 
 select *
 from accounts;
@@ -49,7 +56,7 @@ alter table customer
 alter table customer
 	add constraint FK_CUSTOMER_11 foreign key(branch_id) references branch (branch_id);
 alter table customer
-	add constraint FK_CUSTOMER_12 foreign key(city_id) references city (city_id);
+	add constraint FK_CUSTOMER_12 foreign key(city_id) references city (city_id) on update cascade;
 desc customer;
 INSERT INTO customer VALUES('C-101','Jones', 'Main', 'harrison', 'A-101', 'D-101', 'B-107', 'CI-101');
 INSERT INTO customer VALUES('C-102','Smith', 'North', 'Rye', null, 'D-102', null, 'CI-103');
@@ -63,6 +70,17 @@ INSERT INTO customer VALUES('C-109','Johnson', 'Alma', 'Palo Alto', 'A-105', nul
 INSERT INTO customer VALUES('C-110','Glenn', 'Sand Hill', 'Woodside',  null, null, null, 'CI-103');
 INSERT INTO customer VALUES('C-111','Brooks', 'Senator', 'Brooklyn', 'A-106', 'D-106', 'B-105', 'CI-107');
 INSERT INTO customer VALUES('C-112','Girccn', 'Walnut', 'Stamford', 'A-107', 'D-107', 'B-106', 'CI-104');
+
+INSERT INTO city VALUES('CI_101','Longbeach', 'LA', 'C-101', 'B-107');
+INSERT INTO city VALUES('CI_102','Pasadena', 'LA', 'C-106', 'B-104');
+INSERT INTO city VALUES('CI_103','Glendale', 'LA', 'C-103', 'B-103');
+INSERT INTO city VALUES('CI_104','Jongro', 'Seoul', 'C-112', 'B-106');
+INSERT INTO city VALUES('CI_105','Gangnam', 'Seoul', 'C-103', 'B-103');
+INSERT INTO city VALUES('CI_106','Seoungbuk', 'Seoul', 'A-101', null);
+INSERT INTO city VALUES('CI_107','Arlington', 'Washington', 'A-101', 'B-105');
+INSERT INTO city VALUES('CI_108','Alexandria', 'Washington', 'A-101', 'B-101');
+INSERT INTO city VALUES('CI_109','Maryland', 'Washington', 'A-101', null);
+
 
 CREATE TABLE branch(#지점
 	branch_id varchar(100) not null,
@@ -114,13 +132,15 @@ alter table depositor
 alter table depositor
 	add constraint FK_DEPOSITOR_3 foreign key(branch_id) references branch (branch_id);
     
-INSERT INTO depositor VALUES('d-101','Johnson', 'A-101');
-INSERT INTO depositor VALUES('d-102','Smith', 'A-215');
-INSERT INTO depositor VALUES('d-103','Hayes', 'A-102');
-INSERT INTO depositor VALUES('d-104','Turner', 'A-305');
-INSERT INTO depositor VALUES('d-105','Jason', 'A-201');
-INSERT INTO depositor VALUES('d-106','Jones', 'A-217');
-INSERT INTO depositor VALUES('d-107','Lindsay', 'A-222');
+INSERT INTO depositor VALUES('D-101','Johnson', 'A-101', 'C-101', 'CI-101', 'B-107');
+INSERT INTO depositor VALUES('D-102','Smith', null, 'C-102', 'CI-103', null);
+INSERT INTO depositor VALUES('D-103','Hayes', null, 'C-105', 'CI-109', null);
+INSERT INTO depositor VALUES('D-104','Turner', 'A-104', 'C-106', 'CI-102','B-104');
+INSERT INTO depositor VALUES('D-105','Jason', null, 'C-108', 'CI-106', null);
+INSERT INTO depositor VALUES('D-106','Jones', 'A-106', 'C-111', 'CI-107', 'B-105');
+INSERT INTO depositor VALUES('D-107','Lindsay', 'A-107', 'C-112', 'CI-104', 'B-106');
+
+
 
 CREATE TABLE city(
 	city_id varchar(100),
@@ -142,14 +162,11 @@ INSERT INTO city VALUES('CI_103','Glendale', 'LA', 'C-103', 'B-103');
 INSERT INTO city VALUES('CI_104','Jongro', 'Seoul', 'C-112', 'B-106');
 INSERT INTO city VALUES('CI_105','Gangnam', 'Seoul', 'C-103', 'B-103');
 INSERT INTO city VALUES('CI_106','Seoungbuk', 'Seoul', 'A-101', null);
-INSERT INTO city VALUES('CI_107','Arlington', 'Washington', 'A-101');
-INSERT INTO city VALUES('CI_108','Alexandria', 'Washington', 'A-101');
-INSERT INTO city VALUES('CI_109','Maryland', 'Washington', 'A-101');
+INSERT INTO city VALUES('CI_107','Arlington', 'Washington', 'A-101', 'B-105');
+INSERT INTO city VALUES('CI_108','Alexandria', 'Washington', 'A-101', 'B-101');
+INSERT INTO city VALUES('CI_109','Maryland', 'Washington', 'A-101', null);
 
-
-
-
-
+ 
 show tables;
 desc city;
 desc branch;

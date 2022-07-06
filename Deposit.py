@@ -6,3 +6,8 @@ class Deposit(action):
     AC.UserInput()
     AC.Check_Fraud()
     AC.Input_Cash()
+    
+    
+    
+    
+def Deposit_Main

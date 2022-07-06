@@ -6,8 +6,7 @@ class LookUp_Tran(action):
         self.cnt = 1
         
     UI(AC.UserInput())
-    LookupMain():
-    AC.PassWord()
+    LookupMain()
     
     
     
@@ -37,15 +36,18 @@ def LookupMain(func):
     while(cnt)
         if tmp == 1 :
             Lookup_Withdraw()
+            func( # 클래스 매개변수)
                 #계좌 정보 가져온 후 출금 연동
                 # 출금 클래스 호출 후 연동
             
         elif tmp == 2 :
             Last_Tran()
+             func( # 클래스 매개변수)
                 #마지막 거래일자 조회
             
         elif tmp == 3 :
             All_Tran()
+            func( # 클래스 매개변수)
                 #전체 거래내역 조회
         cnt = Continue()
         
