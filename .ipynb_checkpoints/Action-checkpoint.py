@@ -3,12 +3,23 @@ import pymysql
 
 class Action :
     
-    def UserInput():# 카드 통장 삽입
-        user = input("카드나 통장을 삽입하세요.")
-        return user
+    
+    
+    def UserInput():# 카드 통장 삽
+        return input("카드나 통장을 삽입하세요.")
     
     def Input_Cash():
-        return input("현금 또는 수표를 삽입하세요.")
+        input_cash = {"1 만원권" : 0, "5 만원권" : 0, "10 만원권" : 0}
+        
+        for i in input_cash :
+            input_cash[i] = int(input("입금하실 " + i + "의 갯수를 입력하세요."))
+            
+        for i in input_cash:
+            print(i + " : " + input_cash[i] + "장, ", end = '')
+            
+        total = input_cash["1 만원권"] * 10000 + input_cash["5 만원권"] * 50000 + input_cash["10 만원권"] * 100000
+        print("을 삽입하였습니다. 총 금액은 " + total + "원 입니다.")
+        
     
     
         
@@ -36,26 +47,35 @@ class Action :
             return 0
         elif user_num not in list_fraud:
             print("사기 거래 조회 되지 않았습니다. 거래를 계속합니다.")
+            return 1
                             
     def Continue(): # 거래 연속 or 종료
         return int(input("거래를 계속하시려면 1을, 거래를 종료하시려면 0를 입력하세요.")
                    
+                   
+                   
     def recipt(): # 명세표 출력
+                   
+                   
                    
     def connection(text):   
         con = pymysql.connect(host='localhost', user='lastcoder', password='1234',
-                       db='atm_db', charset='utf8',  autocommit=True, cursorclass=pymysql.cursors.DictCursor)
+                       db='atm_db', charset='utf8',  autocommit=True, cursorclass=pymysql.cursors.ListCursor)
         cur = con.cursor()
         cur.execute(text)
         con.close()
         return Sort(cur)
                    
+                   
+                   
      def Call_Customer_Account(user_input):
-        info = "select account_name, accounts_id, customer_id\
-        from accounts \
-        where accounts_id =(select accounts_id \
-		from customer \
-		where customer_id = '" + user_input + "');"
+        info = "select AC.accounts_name, CU.customer_name, CU.customer_street, CU.customer_city, AC.accounts_id, AC.customer_id \
+        from accounts AC, customer CU \
+        where AC.accounts_id = (select CU.accounts_id \
+		from customer CU \
+		where CU.customer_id = '" + user_input + "')  \
+        and CU.customer_id = '" + user_input + "';"
+        
         #아이디 입력시 고객 id, 계좌 id , 계좌 이름           
         password = "select accounts_password\
         from accounts \
@@ -65,10 +85,20 @@ class Action :
         # 계좌 비밀번호           
         return [info, password]
                    
-
+    
+    def Call_Accounts_desc(user_input):#계좌 잔액 조회
+        info = "select accounts_desc \
+                from accounts \
+                where accounts_id = (select accounts_id \
+				from customer \
+                where customer_id = '" + user_input +"');"
                    
-     def Call_Branch():
-   
+                   
+    def Call_Branch(user_input):#은행 지점 이름, 은행 위치, 은행 id
+        info = "select BR.branch_name, BR.branch_city, BR.branch_asserts, BR.branch_id \
+        from branch BR, customer CU \
+        where BR.customer_id = CU.customer_id and CU.customer_id = '" + user_input + "';"
+        return info
                    
                    
                    

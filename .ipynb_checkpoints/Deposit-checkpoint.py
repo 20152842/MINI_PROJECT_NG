@@ -3,5 +3,11 @@ from Action import * as AC
 
 class Deposit(action):
     
-    AC.UserInput()
-    AC.Check_Fraud()
+    user_imp = AC.UserInput()
+    if (AC.Check_Fraud()):
+        AC.Input_Cash()
+    
+    
+    
+    
+def Deposit_Main

@@ -8,3 +8,4 @@ class Remittance(action):
     AC.PassWord()
     
     AC.Input_Cash()
+    AC.Call_Branch()

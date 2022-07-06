@@ -176,14 +176,20 @@ desc accounts;
 desc customer;
 desc depositor;
 
-select account_name, accounts_id, customer_id
-from accounts 
-where accounts_id =(select accounts_id
-					from customer
-						where customer_id = 'input');
+select AC.accounts_name, CU.customer_name, CU.customer_street, CU.customer_city, AC.accounts_id, AC.customer_id
+from accounts AC, customer CU
+where AC.accounts_id = (select CU.accounts_id
+					from customer CU
+					where CU.customer_id = 'user_input') 
+	and CU.customer_id = 'user_input';
+
                         
 select accounts_password
 from accounts
 where accounts_id = (select accounts_id
 					from customer
                     where customer_id = 'input');
+                    
+select BR.branch_name, BR.branch_city, BR.branch_asserts, BR.branch_id
+from branch BR, customer CU
+where BR.customer_id = CU.customer_id and CU.customer_id = 'input';
