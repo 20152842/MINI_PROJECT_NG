@@ -71,6 +71,8 @@ INSERT INTO customer VALUES('C-110','Glenn', 'Sand Hill', 'Woodside',  null, nul
 INSERT INTO customer VALUES('C-111','Brooks', 'Senator', 'Brooklyn', 'A-106', 'D-106', 'B-105', 'CI-107');
 INSERT INTO customer VALUES('C-112','Girccn', 'Walnut', 'Stamford', 'A-107', 'D-107', 'B-106', 'CI-104');
 
+
+
 INSERT INTO city VALUES('CI_101','Longbeach', 'LA', 'C-101', 'B-107');
 INSERT INTO city VALUES('CI_102','Pasadena', 'LA', 'C-106', 'B-104');
 INSERT INTO city VALUES('CI_103','Glendale', 'LA', 'C-103', 'B-103');
@@ -173,3 +175,15 @@ desc branch;
 desc accounts;
 desc customer;
 desc depositor;
+
+select account_name, accounts_id, customer_id
+from accounts 
+where accounts_id =(select accounts_id
+					from customer
+						where customer_id = 'input');
+                        
+select accounts_password
+from accounts
+where accounts_id = (select accounts_id
+					from customer
+                    where customer_id = 'input');

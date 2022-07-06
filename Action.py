@@ -42,14 +42,55 @@ class Action :
                    
     def recipt(): # 명세표 출력
                    
-def connection(text):   
-    con = pymysql.connect(host='localhost', user='lastcoder', password='1234',
+    def connection(text):   
+        con = pymysql.connect(host='localhost', user='lastcoder', password='1234',
                        db='atm_db', charset='utf8',  autocommit=True, cursorclass=pymysql.cursors.DictCursor)
-    cur = con.cursor()
-    cur.execute(text)
-    con.close()
-    return Sort(cur)
-
-def Call_C_Info():
+        cur = con.cursor()
+        cur.execute(text)
+        con.close()
+        return Sort(cur)
                    
-    
+     def Call_Customer_Account(user_input):
+        info = "select account_name, accounts_id, customer_id\
+        from accounts \
+        where accounts_id =(select accounts_id \
+		from customer \
+		where customer_id = '" + user_input + "');"
+        #아이디 입력시 고객 id, 계좌 id , 계좌 이름           
+        password = "select accounts_password\
+        from accounts \
+        where accounts_id = (select accounts_id \
+		from customer \
+        where customer_id = '" + user_input + "');"
+        # 계좌 비밀번호           
+        return [info, password]
+                   
+
+                   
+     def Call_Branch():
+   
+                   
+                   
+                   
+                   
+                   
+    def Sort(cur):
+        tmp = list(cur)
+        a = []
+        b = []
+        for i in range(len(tmp)):
+            for j, k in tmp[i].items():
+                a.append(j)
+                b.append(k)
+        new_a = []
+        for i in a :
+            if i not in new_a:
+                new_a.append(i)
+                        
+        for i in new_a :
+            print(i, end = '           ')
+        print()
+        for i in range(0, len(b)):
+            print(b[i], end = '   /   ')
+            if (i+1) % len(new_a) == 0 and i > 1:
+                print()
