@@ -6,6 +6,11 @@ class Action :
         user = input("카드나 통장을 삽입하세요.")
         return user
     
+    def Input_Cash():
+        return input("현금 또는 수표를 삽입하세요.")
+    
+    
+        
     def PassWord(): # 비밀번호 기입
         while(true):
             password = input("비밀번호를 입력하세요")
