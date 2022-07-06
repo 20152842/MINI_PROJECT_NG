@@ -6,3 +6,5 @@ class Remittance(action):
     AC.UserInput()
     AC.Check_Fraud()
     AC.PassWord()
+    
+    AC.Input_Cash()
