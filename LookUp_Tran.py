@@ -54,17 +54,7 @@ def LookupMain(func):
 def LM_PassWord(Action):
     return Action.PassWord()
                     
-    
-def UI(user):
-    print(user + "을(를) 삽입하셨습니다. 거래를 선택하세요")
-    print('-' *30)
-    print("1. 조회 후 출금")
-    print("2. 최종일 거래내역 조회")
-    print("3. 전체 거래내역 조회")
-    print('-' *30)
-        
-    return int(input())
-        
+
     
     
 def Lookup_Withdraw(PassWord):

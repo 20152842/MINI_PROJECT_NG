@@ -17,12 +17,15 @@ alter table accounts
 	add constraint FK_ACCOUNTS foreign key(customer_id) references customer (customer_id);
     
 alter table accounts drop foreign key FK_ACCOUNTS;
+alter table accounts modify accounts_desc varchar(100);
 desc accounts;
 alter table accounts
 	add accounts_password varchar(100);
 desc accounts;
 select *
 from accounts;
+
+
 
 INSERT INTO accounts VALUES('Downrown', 'A-101', 500, 'C-101', 1111);
 INSERT INTO accounts VALUES('Mianus', 'A-102', 700, 'C-103', 1111);
@@ -184,7 +187,7 @@ where AC.accounts_id = (select CU.accounts_id
 	and CU.customer_id = 'user_input';
 
                         
-select accounts_password
+select accounts_desc
 from accounts
 where accounts_id = (select accounts_id
 					from customer
