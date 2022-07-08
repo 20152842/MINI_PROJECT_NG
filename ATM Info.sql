@@ -13,8 +13,37 @@ create table accounts(
     constraint PK_ACCOUNTS primary key(accounts_id)
 )engine = InnoDB default character set = utf8mb4;
 
+alter table accounts add branch_id varchar(100) not null default "none";
+update accounts set branch_id = 'B-107' where customer_id = 'C-101';
+update accounts set branch_id = 'B-103' where customer_id = 'C-103';
+update accounts set branch_id = 'B-102' where customer_id = 'C-104';
+update accounts set branch_id = 'B-104' where customer_id = 'C-106';
+update accounts set branch_id = 'B-101' where customer_id = 'C-109';
+update accounts set branch_id = 'B-105' where customer_id = 'C-111';
+update accounts set branch_id = 'B-106' where customer_id = 'C-112';
+select *
+from accounts;
+
+INSERT INTO customer VALUES('C-101','Jones', 'Main', 'harrison', 'A-101', 'D-101', 'B-107', 'CI-101');
+INSERT INTO customer VALUES('C-102','Smith', 'North', 'Rye', null, 'D-102', null, 'CI-103');
+INSERT INTO customer VALUES('C-103','Hayes', 'Main', 'Harrison', 'A-102', null, 'B-103', 'CI-105');
+INSERT INTO customer VALUES('C-104','Curry', 'North', 'Rye', 'A-103', null, 'B-102', 'CI-107');
+INSERT INTO customer VALUES('C-105','Lindsay', 'Park', 'Pittsfield',  null, 'D-103', null, 'CI-109');
+INSERT INTO customer VALUES('C-106','Turner', 'Putnam', 'Stamford', 'A-104', 'D-104', 'B-104', 'CI-102');
+INSERT INTO customer VALUES('C-107','Williams', 'Nassau', 'Princeton', null, null, null, 'CI-104');
+INSERT INTO customer VALUES('C-108','Adams', 'Spring', 'Pittsfield', null, 'D-105', null, 'CI-106');
+INSERT INTO customer VALUES('C-109','Johnson', 'Alma', 'Palo Alto', 'A-105', null, 'B-101', 'CI-108');
+INSERT INTO customer VALUES('C-110','Glenn', 'Sand Hill', 'Woodside',  null, null, null, 'CI-103');
+INSERT INTO customer VALUES('C-111','Brooks', 'Senator', 'Brooklyn', 'A-106', 'D-106', 'B-105', 'CI-107');
+INSERT INTO customer VALUES('C-112','Girccn', 'Walnut', 'Stamford', 'A-107', 'D-107', 'B-106', 'CI-104');
+
+
+
 alter table accounts
 	add constraint FK_ACCOUNTS foreign key(customer_id) references customer (customer_id);
+    
+   
+    
     
 alter table accounts drop foreign key FK_ACCOUNTS;
 alter table accounts modify accounts_desc varchar(100);
@@ -118,7 +147,8 @@ INSERT INTO branch VALUES('B-105','Round Hill', 'Horsencck', 8000000, 'C-111', '
 INSERT INTO branch VALUES('B-106','Pownal', 'Bennington', 300000, 'C-112', 'CI-104', 'D-107');
 INSERT INTO branch VALUES('B-107','North Town', 'Rye', 3700000, 'C-101', 'CI-101', 'D-101');
 INSERT INTO branch VALUES('B-108','Brighton', 'Brooklyn', 7100000, null, 'CI-103', 'D-102');
-#
+
+
 
 CREATE TABLE depositor(
 	depositor_id varCHAR(100),
@@ -196,3 +226,7 @@ where accounts_id = (select accounts_id
 select BR.branch_name, BR.branch_city, BR.branch_asserts, BR.branch_id
 from branch BR, customer CU
 where BR.customer_id = CU.customer_id and CU.customer_id = 'input';
+
+select 	, CU.customer_id
+from accounts AC, customer CU
+where CU.customer_id = AC.customer_id and CU.customer_id = 'user_input';

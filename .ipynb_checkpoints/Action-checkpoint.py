@@ -25,8 +25,8 @@ class Action :
         
         return int(input())
         
-    def LookUp_Tran_UI(user):
-        print(user + "을(를) 삽입하셨습니다. 거래를 선택하세요")
+    def LookUp_Tran_UI():
+        print("거래를 선택하세요")
         print('-' *30)
         print("1. 조회 후 출금")
         print("2. 최종일 거래내역 조회")
@@ -65,17 +65,23 @@ class Action :
                 for i in out_cash :
                     out_cash[i] = int(input("출금하실 " + i + "의 갯수를 입력하세요."))
             except KeyError:
-                print("잘못 입력하셨습니다. 선택하신 돈의 종류를 맞춰주세요.")\
+                print("잘못 입력하셨습니다. 선택하신 돈의 종류를 맞춰주세요.")
             else:
                 break
                 
                 
         for i in out_cash:
             print(i + " : " + str(out_cash[i]) + "장, ", end = '')
-/////////////////////////
-        
-        total = out_cash["1 만원권"] * 1 + out_cash["5 만원권"] * 5 + out_cash["10 만원권"] * 10
-        print("을 삽입하였습니다. 총 금액은 " + str(total) + "만원 입니다.")
+
+        if user_input == 1:        
+            total = out_cash["1 만원권"] * 1 + out_cash["5 만원권"] * 5
+        elif user_input == 2:
+            total = out_cash["10 만원권"] * 10
+        elif user_input == 3:
+            total = out_cash["1 만원권"] * 1 + out_cash["5 만원권"] * 5 + out_cash["10 만원권"] * 10
+            
+            
+        print("을 출금하였습니다. 총 금액은 " + str(total) + "만원 입니다.")
         time.sleep(1)
         
         return total
@@ -174,7 +180,7 @@ class Action :
                 from accounts AC, customer CU \
                 where CU.customer_id = AC.customer_id and CU.customer_id = '" + user_input + "';"
         print("계좌 비밀번호")
-        return connection(info)
+        return Action.connection(info)
                    
     
     def Call_Accounts_desc(user_input):#계좌 잔액 조회
@@ -194,7 +200,7 @@ class Action :
         where BR.customer_id = CU.customer_id and CU.customer_id = '" + user_input + "';"
                    
         print("목록 : 은행명, 은행 주소, 은행ID")
-        return connection(info)
+        return Action.connection(info)
     
     def Check_Password(password):
         cnt = 3
@@ -207,7 +213,17 @@ class Action :
                 cnt -= 1
             if cnt == 0 :
                 sys.exit("입력 횟수를 초과하였습니다. 거래를 종료합니다.")
-                   
+        
+    def update_accounts(value, account_id):
+        info = "select accounts_desc \
+            from accounts \
+            where customer_id = '"+ account_id +"';"
+        total = value + int(Action.connection(info)['accounts_desc'])
+        print("계좌의 잔액이 " + str(Action.Call_Accounts_desc(account_id)['accounts_desc']) + " 에서", end = '')
+        info = "update accounts set accounts_desc = '"+ str(total) +"' where customer_id = '"+ account_id +"';"
+        tmp_dict = Action.connection(info)
+        print( str(Action.Call_Accounts_desc(account_id)['accounts_desc'] + "로 변경되었습니다.") )
+        
                    
                    
     def Sort(cur):
