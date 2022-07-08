@@ -25,7 +25,7 @@ class Action :
         
         return int(input())
         
-    def LookUp_Tran_UI():
+    def LookUp_Tran_UI(user_id):
         print("거래를 선택하세요")
         print('-' *30)
         print("1. 조회 후 출금")
@@ -33,8 +33,11 @@ class Action :
         print("3. 전체 거래내역 조회")
         print('-' *30)
         
-        return int(input())
-        
+        if(int(input()) == 1):
+            print("현재 고객님의 계좌 잔액은 " + str(Action.Call_Accounts_desc(user_id)['accounts_desc']) + "입니다.")
+            return Action.Withdraw_Cash(Action.Withdraw_UI())
+            
+    
     
     
     def Input_Cash():
@@ -134,7 +137,13 @@ class Action :
         sys.exit("거래가 종료되었습니다. 안녕히 가세요.")
                 
         
-                   
+    def update(text):
+        con = pymysql.connect(host='localhost', user='lastcoder', password='1234',
+                       db='atm_db', charset='utf8',  autocommit=True, cursorclass=pymysql.cursors.DictCursor)
+        cur = con.cursor()
+        cur.execute(text)
+        #result = cur.fetchall()
+        con.close()
                    
     def connection(text):   
         con = pymysql.connect(host='localhost', user='lastcoder', password='1234',
@@ -214,14 +223,28 @@ class Action :
             if cnt == 0 :
                 sys.exit("입력 횟수를 초과하였습니다. 거래를 종료합니다.")
         
-    def update_accounts(value, account_id):
+    def update_accounts_minus(value, account_id):
+        info = "select accounts_desc \
+            from accounts \
+            where customer_id = '"+ account_id +"';"
+        total = int(Action.connection(info)['accounts_desc']) - value
+        if total < 0 :
+            total = 0
+            print("계좌의 잔액이 부족합니다.")
+            return
+        print("계좌의 잔액이 " + str(Action.Call_Accounts_desc(account_id)['accounts_desc']) + " 에서", end = '')
+        info = "update accounts set accounts_desc = '"+ str(total) +"' where customer_id = '"+ account_id +"';"
+        Action.update(info)
+        print( str(Action.Call_Accounts_desc(account_id)['accounts_desc'] + "로 변경되었습니다.") )
+        
+    def update_accounts_plus(value, account_id):
         info = "select accounts_desc \
             from accounts \
             where customer_id = '"+ account_id +"';"
         total = value + int(Action.connection(info)['accounts_desc'])
         print("계좌의 잔액이 " + str(Action.Call_Accounts_desc(account_id)['accounts_desc']) + " 에서", end = '')
         info = "update accounts set accounts_desc = '"+ str(total) +"' where customer_id = '"+ account_id +"';"
-        tmp_dict = Action.connection(info)
+        Action.update(info)
         print( str(Action.Call_Accounts_desc(account_id)['accounts_desc'] + "로 변경되었습니다.") )
         
                    

@@ -9,5 +9,5 @@ class Remittance():
         bank_id = Action.Call_Branch( Action.Call_Customer_Account(user_id)['customer_id'] )['branch_id']
         account_id = Action.Call_Customer_Account(user_id)['accounts_id'] 
         total = Action.Input_Cash()
-        Action.update_accounts(total, account_id)
+        Action.update_accounts_plus(total, user_id)
         cnt = Action.Continue()
